@@ -4,10 +4,12 @@ import java.util.Scanner;
 
 public class Dice {
     private int sides;
+    private boolean unhidden;
     private String rollType;
 
-    public Dice(int sides, String rollType) {
+    public Dice(int sides, String rollType, boolean unhidden) {
         this.rollType = rollType;
+        this.unhidden = unhidden;
         setSides(sides);
     }
 
@@ -38,33 +40,43 @@ public class Dice {
     public int rollDice(int timesRolled) {
         setTimesRolled(timesRolled);
         int total = 0;
-        System.out.println();
+        if (unhidden) {
+            System.out.println();
+        }
         for (int i = timesRolled; i > 0; i--) {
             int roll = (int) (Math.random() * sides + 1);
             total = total + roll;
-            System.out.println("Rolling to " + rollType + "...");
-            Console.pause(1000);
-            System.out.println(Console.cleanInput(rollType) + " Roll #" + i + ": " + roll);
+            if (unhidden) {
+                System.out.println("Rolling to " + rollType + "...");
+                Console.pause(1000);
+                System.out.println(Console.cleanInput(rollType) + " Roll #" + i + ": " + roll);
+            }
         }
-        System.out.println();
-        System.out.println("Total: " + total);
-        Console.pause(1000);
+        if (unhidden) {
+            System.out.println();
+            System.out.println("Total: " + total);
+            Console.pause(1000);
+        }
         return total;
     }
 
     public int rollWithDisadvantage() {
         int firstRoll = rollDice(1);
         int secondRoll = rollDice(1);
-        Console.printSmallPause("Taking the lower of " + firstRoll
-                + " and " + secondRoll);
+        if (unhidden) {
+            Console.printSmallPause("Taking the lower of " + firstRoll
+                    + " and " + secondRoll);
+        }
         return Math.min(firstRoll, secondRoll);
     }
 
     public int rollWithAdvantage() {
         int firstRoll = rollDice(1);
         int secondRoll = rollDice(1);
-        Console.printSmallPause("Taking the higher of " + firstRoll
-                + " and " + secondRoll);
+        if (unhidden) {
+            Console.printSmallPause("Taking the higher of " + firstRoll
+                    + " and " + secondRoll);
+        }
         return Math.max(firstRoll, secondRoll);
     }
 

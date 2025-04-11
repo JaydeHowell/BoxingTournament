@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Fight {
     private int round = 1;
-    private Dice fightDice = new Dice(20, "Fight");
+    private Dice fightDice = new Dice(20, "Fight", false);
     //score 1 = fighter 1; score 2 = fighter 2
     private ArrayList<Integer> firstJudgeScore1 = new ArrayList<>();
     private ArrayList<Integer> firstJudgeScore2 = new ArrayList<>();
