@@ -6,6 +6,7 @@ public class Fighter {
     private int dexterity;
     private int constitution;
     private int wisdom;
+    private boolean conscious = true;
 
     public Fighter(String name, int strength, int dexterity, int constitution, int wisdom) {
         this.name = name;
@@ -17,6 +18,10 @@ public class Fighter {
 
     public String getName() {
         return name;
+    }
+
+    public boolean isConscious() {
+        return conscious;
     }
 
     public int getStrength() {
