@@ -11,31 +11,43 @@ public class Fight {
     private ArrayList<Integer> firstJudgeScore2 = new ArrayList<>();
 
     public void fightNight(Fighter fighter1, Fighter fighter2) {
-        if (round == 1) {
-            Console.printLargePause("The fight between " + fighter1.getName()
+        Console.printLargePause("The fight between " + fighter1.getName()
                     + " and " + fighter2.getName() + " is starting now!");
-        } else if (round >= 12) {
-            Console.printLargePause("The fight has gone the distance!");
-        }
-        while (round < 13) {
-            nextRound(fighter1, fighter2, round);
-            round++;
-        }
-        //sums the total of all scores for each fighter
-        Console.printLargePause("The scorecards are in!");
         Fighter winner = fighter1;
-        int firstJudgeTotal1 = firstJudgeScore1.stream().mapToInt(Integer::intValue).sum();
-        int firstJudgeTotal2 = firstJudgeScore2.stream().mapToInt(Integer::intValue).sum();
-        if (firstJudgeTotal1 > firstJudgeTotal2) {
-            winner = fighter1;
-        } else if (firstJudgeTotal1 < firstJudgeTotal2) {
-            winner = fighter2;
+        while (round < 13) {
+            if (fighter1.isConscious() && fighter2.isConscious()) {
+                nextRound(fighter1, fighter2, round);
+                round++;
+            } else {
+                break;
+            }
         }
-        String fighter1Scorecard = Integer.toString(firstJudgeTotal1);
-        String fighter2Scorecard = Integer.toString(firstJudgeTotal2);
-        Console.printLargePause("Judge scores the bout " + fighter1Scorecard
-        + " to " + fighter2Scorecard + " in favor of your winner...");
-        Console.printLargePause(winner.getName() + "!!!");
+        if (round >= 12) {
+            Console.printLargePause("The fight has gone the distance!");
+            //sums the total of all scores for each fighter
+            Console.printLargePause("The scorecards are in!");
+            int firstJudgeTotal1 = firstJudgeScore1.stream().mapToInt(Integer::intValue).sum();
+            int firstJudgeTotal2 = firstJudgeScore2.stream().mapToInt(Integer::intValue).sum();
+            if (firstJudgeTotal1 > firstJudgeTotal2) {
+                winner = fighter1;
+            } else if (firstJudgeTotal1 < firstJudgeTotal2) {
+                winner = fighter2;
+            }
+            String fighter1Scorecard = Integer.toString(firstJudgeTotal1);
+            String fighter2Scorecard = Integer.toString(firstJudgeTotal2);
+            Console.printLargePause("Judge scores the bout " + fighter1Scorecard
+                    + " to " + fighter2Scorecard + " in favor of your winner...");
+            Console.printLargePause(winner.getName() + "!!!");
+        } else {
+            if (fighter1.isConscious()) {
+                winner = fighter1;
+            } else {
+                winner = fighter2;
+            }
+            Console.printLargePause("After " + round + " rounds of boxing, the fight is over!");
+            Console.printLargePause("Your winner by knockout...");
+            Console.printLargePause(winner.getName() + "!!!");
+        }
     }
     public void nextRound(Fighter fighter1, Fighter fighter2, Integer round) {
         Console.printLargePause("Round #" + round);
