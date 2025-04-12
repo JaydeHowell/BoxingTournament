@@ -36,9 +36,15 @@ public class Fight {
             }
             String fighter1Scorecard = Integer.toString(firstJudgeTotal1);
             String fighter2Scorecard = Integer.toString(firstJudgeTotal2);
-            Console.printLargePause("Judge scores the bout " + fighter1Scorecard
-                    + " to " + fighter2Scorecard + " in favor of your winner...");
-            Console.printLargePause(winner.getName() + "!!!");
+            if (!fighter1Scorecard.equals(fighter2Scorecard)) {
+                Console.printLargePause("Judge scores the bout " + fighter1Scorecard
+                        + " to " + fighter2Scorecard + " in favor of your winner...");
+                Console.printLargePause(winner.getName() + "!!!");
+            } else {
+                Console.printLargePause("Judge scores the bout " + fighter1Scorecard
+                + " to " + fighter2Scorecard + ".");
+                Console.printSmallPause("This bout is a draw!");
+            }
         } else {
             if (fighter1.isConscious()) {
                 winner = fighter1;
@@ -47,7 +53,6 @@ public class Fight {
             }
             Console.printLargePause("After " + round + " rounds of boxing, the fight is over!");
             Console.printLargePause("Your winner by knockout...");
-            Console.printLargePause(winner.getName() + "!!!");
         }
     }
     public void nextRound(Fighter fighter1, Fighter fighter2, Integer round) {
