@@ -59,7 +59,7 @@ public class Fight {
         int fighter1Performance = 1;
         int fighter2Performance = 1;
 
-        for(int i = 0; i <= 3; i++) {
+        for(int i = 0; i < 4; i++) {
             if (willExchange(fighter1, fighter2)) {
                 if (exchange(fighter1, fighter2) == fighter1) {
                     fighter1Performance++;
