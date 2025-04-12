@@ -1,7 +1,6 @@
 package com.Tournament;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Fight {
     private int round = 1;

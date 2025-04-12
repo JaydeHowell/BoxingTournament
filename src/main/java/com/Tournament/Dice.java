@@ -4,12 +4,12 @@ import java.util.Scanner;
 
 public class Dice {
     private int sides;
-    private boolean unhidden;
-    private String rollType;
+    private final boolean UNHIDDEN;
+    private final String ROLL_TYPE;
 
-    public Dice(int sides, String rollType, boolean unhidden) {
-        this.rollType = rollType;
-        this.unhidden = unhidden;
+    public Dice(int sides, String ROLL_TYPE, boolean UNHIDDEN) {
+        this.ROLL_TYPE = ROLL_TYPE;
+        this.UNHIDDEN = UNHIDDEN;
         setSides(sides);
     }
 
@@ -40,19 +40,19 @@ public class Dice {
     public int rollDice(int timesRolled) {
         setTimesRolled(timesRolled);
         int total = 0;
-        if (unhidden) {
+        if (UNHIDDEN) {
             System.out.println();
         }
         for (int i = timesRolled; i > 0; i--) {
             int roll = (int) (Math.random() * sides + 1);
             total = total + roll;
-            if (unhidden) {
-                System.out.println("Rolling to " + rollType + "...");
+            if (UNHIDDEN) {
+                System.out.println("Rolling to " + ROLL_TYPE + "...");
                 Console.pause(1000);
-                System.out.println(Console.cleanInput(rollType) + " Roll #" + i + ": " + roll);
+                System.out.println(Console.cleanInput(ROLL_TYPE) + " Roll #" + i + ": " + roll);
             }
         }
-        if (unhidden) {
+        if (UNHIDDEN) {
             System.out.println();
             System.out.println("Total: " + total);
             Console.pause(1000);
@@ -63,7 +63,7 @@ public class Dice {
     public int rollWithDisadvantage() {
         int firstRoll = rollDice(1);
         int secondRoll = rollDice(1);
-        if (unhidden) {
+        if (UNHIDDEN) {
             Console.printSmallPause("Taking the lower of " + firstRoll
                     + " and " + secondRoll);
         }
@@ -73,7 +73,7 @@ public class Dice {
     public int rollWithAdvantage() {
         int firstRoll = rollDice(1);
         int secondRoll = rollDice(1);
-        if (unhidden) {
+        if (UNHIDDEN) {
             Console.printSmallPause("Taking the higher of " + firstRoll
                     + " and " + secondRoll);
         }
