@@ -17,6 +17,7 @@ public class Console {
             //checking if input is an integer and within the bounds of choices
             if (scanner.hasNextInt()) {
                 choiceNumber = scanner.nextInt();
+                scanner.nextLine();
                 if (choiceNumber >=1 && choiceNumber <= options.length) {
                     break;
                 }
