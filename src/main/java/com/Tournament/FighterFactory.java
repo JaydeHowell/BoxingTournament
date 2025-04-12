@@ -4,7 +4,7 @@ public class FighterFactory {
     private static String[] fighterOptions = { "Slick", "Slugger", "Outside" };
 
     public static Fighter createFighter() {
-        String fighterClass = Console.readChoice("What type of fighter?", fighterOptions);
+        String fighterClass = Console.readChoice("What type of fighter?", fighterOptions).toLowerCase();
         String fighterName = Console.readText("What is the fighter's name? ");
 
         return switch (fighterClass) {

@@ -11,7 +11,7 @@ public class Tournament {
         this.participants = participants;
     }
 
-    public List<Fighter> setup() {
+    private List<Fighter> setup() {
         List<Fighter> bracket = new ArrayList<>();
         Fighter[] fighterList = new Fighter[participants];
         for (int i = 0; i < participants; i++) {
@@ -25,7 +25,7 @@ public class Tournament {
         List<Fighter> bracket = setup();
         Console.printLargePause("Here are the participants");
         for (int i = 0; i < participants; i++) {
-            Console.printSmallPause(i+1 + ": " + bracket.get(i));
+            Console.printSmallPause(i+1 + ": " + bracket.get(i).getName());
         }
         Console.printLargePause("Let the tournament begin!");
     }
