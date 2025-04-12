@@ -1,7 +1,8 @@
 package com.Tournament;
 
 public class Fighter {
-    private String name;
+    private final String NAME;
+    private int ID;
     private int strength;
     private int dexterity;
     private int constitution;
@@ -9,7 +10,8 @@ public class Fighter {
     private boolean conscious = true;
 
     public Fighter(String name, int strength, int dexterity, int constitution, int wisdom) {
-        this.name = name;
+        this.NAME = name;
+        this.ID = 0;
         this.strength = strength;
         this.dexterity = dexterity;
         this.constitution = constitution;
@@ -17,7 +19,15 @@ public class Fighter {
     }
 
     public String getName() {
-        return name;
+        return NAME;
+    }
+
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
     }
 
     public boolean isConscious() {
