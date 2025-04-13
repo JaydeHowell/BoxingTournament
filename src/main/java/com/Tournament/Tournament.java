@@ -2,7 +2,6 @@ package com.Tournament;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class Tournament {
     private int participants;
@@ -37,7 +36,7 @@ public class Tournament {
         int tournamentRounds = ExponentSolver.solve(2, participants);
         List<Fighter> nextRound = fighters;
         for (int j = 0; j < tournamentRounds; j++) {
-            nextRound = roundOne(nextRound);
+            nextRound = commenceRound(nextRound);
             if (nextRound.size() > 1) {
                 Console.printLargePause("Here are the remaining participants");
                 for (int i = 0; i < nextRound.size(); i++) {
@@ -48,7 +47,7 @@ public class Tournament {
         return nextRound.getFirst();
     }
 
-    private List<Fighter> roundOne(List<Fighter> fighters) {
+    private List<Fighter> commenceRound(List<Fighter> fighters) {
         List<Fighter> newBracket = new ArrayList<>();
         for (int i = 0; i < fighters.size()/2; i++) {
             //get the seed
