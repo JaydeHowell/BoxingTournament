@@ -10,7 +10,7 @@ public class Fight {
     private ArrayList<Integer> firstJudgeScore1 = new ArrayList<>();
     private ArrayList<Integer> firstJudgeScore2 = new ArrayList<>();
 
-    public void fightNight(Fighter fighter1, Fighter fighter2) {
+    public Fighter fightNight(Fighter fighter1, Fighter fighter2) {
         Console.printLargePause("The fight between " + fighter1.getName()
                     + " and " + fighter2.getName() + " is starting now!");
         Fighter winner = fighter1;
@@ -53,6 +53,7 @@ public class Fight {
             Console.printLargePause("After " + round + " rounds of boxing, the fight is over!");
             Console.printLargePause("Your winner by knockout...");
         }
+        return winner;
     }
     public void nextRound(Fighter fighter1, Fighter fighter2, Integer round) {
         Console.printLargePause("Round #" + round);
@@ -76,8 +77,11 @@ public class Fight {
         if (fighter1Performance > fighter2Performance) {
             firstJudgeScore1.add(10);
             firstJudgeScore2.add(9);
-        } else {
+        } else if (fighter2Performance > fighter1Performance){
             firstJudgeScore1.add(9);
+            firstJudgeScore2.add(10);
+        } else {
+            firstJudgeScore1.add(10);
             firstJudgeScore2.add(10);
         }
         Console.printLargePause(fighter1Performance
