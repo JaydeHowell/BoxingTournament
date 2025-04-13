@@ -1,14 +1,19 @@
 package com.Tournament;
 
+import com.sun.tools.jconsole.JConsoleContext;
+
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Fight {
     private int round = 1;
-    private Dice hitDice = new Dice(40, "Hit", false);
+    private Dice hitDice = new Dice(30, "Hit", false);
     private final int EXCHANGE_THRESHOLD = 18;
     //score 1 = fighter 1; score 2 = fighter 2
     private ArrayList<Integer> firstJudgeScore1 = new ArrayList<>();
     private ArrayList<Integer> firstJudgeScore2 = new ArrayList<>();
+    private Random random = new Random();
+    private double variance = (random.nextDouble(40) + 80) / 100;
 
     public Fighter fightNight(Fighter fighter1, Fighter fighter2) {
         Console.printLargePause("The fight between " + fighter1.getName()
@@ -61,14 +66,10 @@ public class Fight {
         int fighter2Performance = 1;
 
         for(int i = 0; i < 4; i++) {
-            if (willExchange(fighter1, fighter2)) {
-                if (exchange(fighter1, fighter2) == fighter1) {
-                    fighter1Performance++;
-                } else {
-                    fighter2Performance++;
-                }
+            if (engage(fighter1, fighter2) == fighter1) {
+                fighter1Performance++;
             } else {
-                Console.printLargePause("They're feeling each other out, but no action.");
+                fighter2Performance++;
             }
         }
         fighter1Performance = hitDice.rollDice(1) * fighter1Performance;
@@ -88,22 +89,48 @@ public class Fight {
                 + " to " + fighter2Performance);
     }
 
-    public boolean willExchange(Fighter fighter1, Fighter fighter2) {
-        int exchangeModifier = fighter1.getDexterity() + fighter2.getDexterity();
-        int exchangeResult = hitDice.rollDice(1) + exchangeModifier;
-        if (fighter1 instanceof Slugger || fighter2 instanceof Slugger) {
-            exchangeResult = exchangeResult * 2;
-        }
-        if (fighter1 instanceof Slick || fighter2 instanceof Slick) {
-            exchangeResult = exchangeResult / 2;
-        }
-        return EXCHANGE_THRESHOLD <= exchangeResult;
+    private Fighter engage(Fighter fighter1, Fighter fighter2) {
+        boolean fighter1Initiates = willInitiate(fighter1, fighter2);
+        boolean fighter2Initiates = willInitiate(fighter2, fighter1);
+        if (fighter1Initiates && fighter2Initiates)
+            // they both engage with the higher dex landing first
+            return fighter1.getDexterity() > fighter2.getDexterity()
+                    ? exchange(fighter1, fighter2)
+                    : exchange(fighter2, fighter1);
+        if (fighter1Initiates)
+            return exchange(fighter1, fighter2);
+
+        if (fighter2Initiates)
+            return exchange(fighter2, fighter1);
+
+        // fallback outcome if neither fighter engages
+        int roll = (int) (Math.random() * 100);
+        Console.printSmallPause("Looks like " + (roll < 50
+                ? fighter1.getName() : fighter2.getName())
+                + " is getting the better of this sequence " + " (" + roll);
+        return roll < 50 ? fighter1 : fighter2;
+    }
+
+    private boolean willInitiate(Fighter self, Fighter opponent) {
+        double selfStaminaModifier = (double) self.getCurrentStamina() / self.getMaxStamina();
+        double opponentStaminaModifier = (double) opponent.getCurrentStamina() / opponent.getMaxStamina();
+        double selfWisdomModifier = (double) self.getWisdom() / 10;
+        return 1 <= ((selfStaminaModifier * selfWisdomModifier) + (opponentStaminaModifier * selfWisdomModifier)) * variance;
     }
 
     public Fighter exchange(Fighter fighter1, Fighter fighter2) {
+
+        int punchesThrown1 = getPunchesThrown(fighter1, variance);
+        int punchesThrown2 = getPunchesThrown(fighter2, variance);
+
+        int punchesDodged1 = getPunchesDodged(fighter1, variance);
+        int punchesDodged2 = getPunchesDodged(fighter2, variance);
+
+        int punchesLanded1 = punchesThrown1 - punchesDodged2;
+        int punchesLanded2 = punchesThrown2 - punchesDodged1;
         int exchangeWinner = (int) (Math.random() * 100);
         Console.printLargePause("What a lovely exchange!");
-        if (exchangeWinner <= 50) {
+        if (exchangeWinner < 50) {
             Console.printSmallPause("Looks like " + fighter1.getName()
                     + " is getting the better of " + fighter2.getName() + " (" + exchangeWinner);
             return fighter1;
@@ -112,6 +139,22 @@ public class Fight {
                     + " is getting the better of " + fighter1.getName() + " (" + exchangeWinner);
             return fighter2;
         }
+    }
+
+    private int getPunchesThrown(Fighter fighter, double variance) {
+        return (int) (fighter.getDexterity() * variance);
+    }
+
+    private int getPunchesDodged(Fighter fighter, double variance) {
+        return (int) (fighter.getDexterity() * (variance / 2));
+    }
+
+    private double getDamageFactor(Fighter fighter, double variance) {
+        return (fighter.getStrength() * fighter.getCurrentStamina()) * variance;
+    }
+
+    private double getChinFactor(Fighter fighter, double variance) {
+        return (fighter.getConstitution() * fighter.getCurrentStamina()) * (variance / 2);
     }
 
 //    private Fighter findWinner(Fighter fighter1, int fighter1Score, Fighter fighter2, int fighter2Score) {
