@@ -7,6 +7,7 @@ public class Fighter {
     private int dexterity;
     private int constitution;
     private int wisdom;
+    private int currentStamina;
     private boolean conscious = true;
 
     public Fighter(String name, int strength, int dexterity, int constitution, int wisdom) {
@@ -16,6 +17,19 @@ public class Fighter {
         this.dexterity = dexterity;
         this.constitution = constitution;
         this.wisdom = wisdom;
+        this.currentStamina = getMaxStamina();
+    }
+
+    public int getCurrentStamina() {
+        return currentStamina;
+    }
+
+    public void modifyCurrentStamina(int staminaModifier) {
+        this.currentStamina += staminaModifier;
+    }
+
+    public int getMaxStamina() {
+        return constitution * 5 + 20;
     }
 
     public String getName() {
